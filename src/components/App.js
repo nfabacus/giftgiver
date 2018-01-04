@@ -12,12 +12,17 @@ class App extends Component {
   addGift = ()=>{
     const { gifts } = this.state
 
-    const ids = this.state.gifts.map(gift=>gift.id)
+    const ids = gifts.map(gift=>gift.id)
     const max_id = ids.length>0?Math.max(...ids):0
 
     gifts.push({ id: max_id+1 })
 
     this.setState({ gifts })
+  }
+
+  removeGift= id =>{
+    const { gifts } = this.state
+    this.setState({ gifts: gifts.filter(gift=>gift.id!==id) })
   }
 
   render(){
@@ -27,7 +32,11 @@ class App extends Component {
         <div className='gift-list'>
           {this.state.gifts.map(gift=>{
             return (
-              <Gift key={gift.id} />
+              <Gift
+                key={gift.id}
+                gift={gift}
+                removeGift={this.removeGift}
+              />
             )
           })}
         </div>
